@@ -1,6 +1,13 @@
+import { useState } from "react";
+
 const Form = () => {
+  const [city, setCity] = useState("");
   return (
-    <h1>Form</h1>
+    <form >
+      <input type="text" name="city" onChange={e => setCity(e.target.value)}/>
+      {city}
+      <button>Get Weather</button>
+    </form>
   )
 }
 
