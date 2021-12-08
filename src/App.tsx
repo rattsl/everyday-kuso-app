@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <h1>{text}</h1>
-      <input type="text" onChange={e => setText(e.target.value)} />
+      <input type="text" placeholder="値を入力" onChange={e => setText(e.target.value)} />
     </div>
   );
 }
