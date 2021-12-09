@@ -1,9 +1,16 @@
+import { useState } from 'react';
 import './App.css';
+import Child from './Child';
 
-function App() {
+const App = () => {
+  const [flag, setFlag] = useState(false);
+  const onClickButton = () => {
+    setFlag(!flag);
+  }
   return (
     <div className="App">
-      <h1>ヘロウワールド</h1>
+      <button onClick={onClickButton}>オンオフぼたん</button>
+      <Child flag={flag}/>
     </div>
   );
 }
