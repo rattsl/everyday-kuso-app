@@ -1,9 +1,14 @@
 import './App.css';
+import TaskInput from './Components/TaskInput';
+import TaskItem from './Components/TaskItem';
+import TaskList from './Components/TaskList';
 
 function App() {
   return (
     <div className="App">
-      <h1>ヘロウワールド</h1>
+      <TaskList />
+      <TaskItem />
+      <TaskInput />
     </div>
   );
 }
