@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import './App.css';
-import Child from './Child';
 
-const App = () => {
-  const [flag, setFlag] = useState(false);
-  const onClickButton = () => {
-    setFlag(!flag);
-  }
+const App: React.FC = () => {
+  const [value, setValue] = useState(0);
+  const countUp = () => {
+    setValue(value + 1)
+  };
   return (
     <div className="App">
-      <button onClick={onClickButton}>オンオフぼたん</button>
-      <Child flag={flag}/>
+      <p>{value}</p>
+      <br />
+      <button onClick={countUp}>countup</button>
     </div>
   );
 }
