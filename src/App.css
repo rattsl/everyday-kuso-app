@@ -1,3 +1,8 @@
 .App {
   text-align: center;
 }
+
+.App ul{
+  width: 40%;
+  margin: auto;
+}
