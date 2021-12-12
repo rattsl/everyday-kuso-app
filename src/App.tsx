@@ -5,12 +5,13 @@ import { Task } from './Components/types';
 function App() {
   const [title, setTitle] = useState("");
   const [tasks, setTasks] = useState<Task[]>([]);
+
+  // textが変更されたときに発火するコールバック関数
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // textが変更されたときのコールバック関数
     setTitle(e.target.value);
   }
+  // 追加ボタンが押されたときに発火するコールバック関数
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement | HTMLInputElement>) => {
-    // 追加ボタンが押されたときのコールバック関数
     e.preventDefault();
     // titleステートがfalsyだったら早めにreturn
     if (!title) return;
@@ -26,6 +27,16 @@ function App() {
     setTitle("");
 
   }
+  // 登録済みのtaskが変更されたときに発火するコールバック関数
+  const handleOnUpdate = (id: number, title: string) => {
+    const newTasks = tasks.map((task) => {
+      if (task.id === id){
+        task.title = title;
+      }
+      return task;
+    })
+    setTasks(newTasks);
+  }
   return (
     <div className="App">
       <form
@@ -40,7 +51,14 @@ function App() {
       <ul>
         {
           tasks.map((task) => {
-            return <li key={task.id}>{task.title}</li>
+            return (
+              <li key={task.id}>
+                <input 
+                  type="text"
+                  value={task.title}
+                  onChange={e => handleOnUpdate(task.id, e.target.value)}
+                  />
+              </li>)
           })
         }
       </ul>
