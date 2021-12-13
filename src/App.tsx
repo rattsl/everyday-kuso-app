@@ -19,7 +19,9 @@ function App() {
     // 新しいtask作成
     const newTask: Task = {
       id: new Date().getTime(),
-      title: title
+      title: title,
+      checked: false,
+      removed: false
     };
 
     // 配列stateに追加
@@ -29,13 +31,37 @@ function App() {
   }
   // 登録済みのtaskが変更されたときに発火するコールバック関数
   const handleOnUpdate = (id: number, title: string) => {
-    const newTasks = tasks.map((task) => {
+    // deepCopy: JSONにした後で復元する
+    const deepCopy: Task[] = JSON.parse(JSON.stringify(tasks));
+    const newTasks = deepCopy.map((task) => {
       if (task.id === id){
         task.title = title;
       }
       return task;
     })
     setTasks(newTasks);
+  }
+  // checkboxが変更されたときに発火するコールバック関数
+  const handleOnCheck = (id: number, checked: Boolean) => {
+    const deepCopy: Task[] = JSON.parse(JSON.stringify(tasks));
+    const newTasks = deepCopy.map((task) => {
+      if(task.id === id){
+        task.checked = !checked;
+      }
+      return task;
+    })
+    setTasks(newTasks);
+  }
+  // 削除ボタンが押下されたときに発火するコールバック関数
+  const handleOnRemove = (id: number, removed: boolean) => {
+    const deepCopy: Task[] = JSON.parse(JSON.stringify(tasks));
+    const newTask = deepCopy.map((task) => {
+      if(task.id === id){
+        task.removed = !removed;
+      }
+      return task;
+    })
+    setTasks(newTask);
   }
   return (
     <div className="App">
@@ -53,11 +79,21 @@ function App() {
           tasks.map((task) => {
             return (
               <li key={task.id}>
+                <input
+                  type="checkbox"
+                  checked={task.checked}
+                  disabled={task.removed}
+                  onChange={() => handleOnCheck(task.id, task.checked)}
+                  />
                 <input 
                   type="text"
+                  disabled={task.checked ||task.removed}
                   value={task.title}
                   onChange={e => handleOnUpdate(task.id, e.target.value)}
                   />
+                <button onClick={() => handleOnRemove(task.id, task.removed)}>
+                  {task.removed ? '復元' : '削除' }
+                </button>
               </li>)
           })
         }
