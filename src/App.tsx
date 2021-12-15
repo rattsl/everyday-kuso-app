@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import './App.css';
-import { Task } from './Components/types';
+import { Task, Filter } from './Components/types';
 
 function App() {
   const [title, setTitle] = useState("");
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [filter, setFilter] = useState<Filter>('all');
 
   // textが変更されたときに発火するコールバック関数
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,6 +64,26 @@ function App() {
     })
     setTasks(newTask);
   }
+  // filterのoptionが変更されたときに発火するコールバック関数
+  const filteredTasks = tasks.filter(task => {
+    switch (filter) {
+      case 'all':
+        // 削除されていないもの全て
+        return !task.removed;
+      case 'unchecked':
+        // 完了済みではないもの且つ削除されていないもの
+        return !task.checked && !task.removed;
+      case 'checked':
+        // 完了済み且つ削除されていないもの
+        return task.checked && !task.removed
+      case 'removed':
+        // 削除済みのもの
+        return task.removed;
+      default:
+        return task;
+    }
+  })
+    // filterの値に応じて配列を返す
   return (
     <div className="App">
       <form
@@ -74,20 +95,26 @@ function App() {
         <input type="text" onChange={(e) => handleOnChange(e)}/>
         <input type="submit" value="課題を追加" onSubmit={handleOnSubmit}/>
       </form>
+      <select defaultValue="all" onChange={(e) => setFilter(e.target.value as Filter)}>
+        <option value="all">全てのタスク</option>
+        <option value="checked">完了済みタスク</option>
+        <option value="unchecked">現在のタスク</option>
+        <option value="removed">削除済タスク</option>
+      </select>
       <ul>
         {
-          tasks.map((task) => {
+          filteredTasks.map((task) => {
             return (
               <li key={task.id}>
                 <input
                   type="checkbox"
                   checked={task.checked}
-                  disabled={task.removed}
+                  disabled={filter === 'checked' || filter === 'removed'}
                   onChange={() => handleOnCheck(task.id, task.checked)}
                   />
                 <input 
                   type="text"
-                  disabled={task.checked ||task.removed}
+                  disabled={filter === 'checked' || filter === 'removed'}
                   value={task.title}
                   onChange={e => handleOnUpdate(task.id, e.target.value)}
                   />
