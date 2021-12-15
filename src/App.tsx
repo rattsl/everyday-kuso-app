@@ -82,10 +82,15 @@ function App() {
       default:
         return task;
     }
-  })
-    // filterの値に応じて配列を返す
+  });
+  const handleOnEmpty = () => {
+    // 削除済みではないtaskのみで配列を作ってtasksステート更新
+    const newTasks = tasks.filter(task => !task.removed)
+    setTasks(newTasks);
+  }
   return (
     <div className="App">
+      {(filter === 'removed') ? (<button onClick={handleOnEmpty}>完全にタスクを削除する</button>) : (
       <form
        onSubmit={e => {
          e.preventDefault();
@@ -94,7 +99,7 @@ function App() {
        >
         <input type="text" onChange={(e) => handleOnChange(e)}/>
         <input type="submit" value="課題を追加" onSubmit={handleOnSubmit}/>
-      </form>
+      </form>)}
       <select defaultValue="all" onChange={(e) => setFilter(e.target.value as Filter)}>
         <option value="all">全てのタスク</option>
         <option value="checked">完了済みタスク</option>
