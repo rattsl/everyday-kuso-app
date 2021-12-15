@@ -1,9 +1,24 @@
+import { useState } from 'react';
 import './App.css';
 
 function App() {
+  const imageStyle = {
+    width: "100%"
+  }
+  const buttonStyle = {
+    display: "block",
+    margin: "auto"
+  }
+  const [imageUrl, setImageUrl] = useState<string>("");
+  const fetchAPI = () => {
+    fetch('https://dog.ceo/api/breeds/image/random')
+    .then(res => res.json())
+    .then(data => setImageUrl(data.message))
+  };
   return (
     <div className="App">
-      <h1>ヘロウワールド</h1>
+      <img style={imageStyle} src={imageUrl}></img>
+      <button style={buttonStyle} onClick={fetchAPI}>いぬ</button>
     </div>
   );
 }
