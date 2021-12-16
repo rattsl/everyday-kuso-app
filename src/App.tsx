@@ -2,12 +2,13 @@ import { useState } from 'react';
 import './App.css';
 
 function App() {
-  const imageStyle = {
-    width: "100%"
+  const imageStyle: {[key: string]: string} = {
+    width: "100%",
+    maxWidth: "300px"
   }
-  const buttonStyle = {
+  const buttonStyle: {[key: string]: string} = {
     display: "block",
-    margin: "auto"
+    margin: "auto",
   }
   const [imageUrl, setImageUrl] = useState<string>("");
   const fetchAPI = () => {
