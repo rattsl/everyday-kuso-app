@@ -1,26 +1,13 @@
-import { useState } from "react";
+type FormPropsType = {
+  setCity: React.Dispatch<React.SetStateAction<string>>
+  getWeather: (e: any) => void
+}
 
-// type _Config = {
-//   API_KEY: string;
-// }
-
-// const Config: _Config = {
-//   API_KEY: process.env.REACT_APP_API_URL || ""
-// }
-
-const Form = () => {
-  const [city, setCity] = useState<string>("");
-  const getWeather = (e: any) => {
-    e.preventDefault();
-    const API_KEY = process.env.REACT_APP_API_KEY;
-    const apiURL = `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=London&aqi=no`;
-    fetch(apiURL).then(res => res.json()).then(data => console.log(data));
-  };
+const Form = (props: FormPropsType) => {
   return (
-    <form >
-      <input type="text" name="city" onChange={e => setCity(e.target.value)}/>
-      <button type="submit" onClick={getWeather} >Get Weather</button>
-      <div>{process.env.REACT_APP_API_KEY}</div>
+    <form  className="container">
+      <input type="text" name="city" onChange={e => props.setCity(e.target.value)}/>
+      <button type="submit" onClick={props.getWeather} >Get Weather</button>
     </form>
   )
 };
