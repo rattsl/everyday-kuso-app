@@ -1,9 +1,17 @@
 import './App.css';
+import { UserCard } from './components/UserCard';
+
+const user = {
+  id: 1,
+  name: "hogehoge",
+  email: "hoge@hoge.com",
+  address: "hogeaddress"
+}
 
 function App() {
   return (
     <div className="App">
-      <h1>ヘロウワールド</h1>
+      <UserCard user={user}/>
     </div>
   );
 }
