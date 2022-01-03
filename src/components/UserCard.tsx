@@ -1,8 +1,8 @@
 import { VFC } from "react"
-import { userProfile } from "../types/userProfile"
+import { UserProfile } from "../types/userProfile"
 
 type Props = {
-  user: userProfile;
+  user: UserProfile;
 }
 
 export  const UserCard: VFC<Props> = (props) => {
